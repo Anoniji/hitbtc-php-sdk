@@ -67,8 +67,8 @@ class ProtectedClient
      */
     public function newOrder(NewOrder $order)
     {
-        $response = $this->getHttpClient()->post('/api/2/trading/new_order', array(
-            'body' => $order->asArray(),
+        $response = $this->getHttpClient()->post('/api/2/order', array(
+            'form_params' => $order->asArray(),
             'exceptions' => false,
         ));
         $document = json_decode($response->getBody(), true);

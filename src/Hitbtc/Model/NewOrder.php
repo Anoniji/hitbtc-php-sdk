@@ -44,6 +44,11 @@ class NewOrder implements OrderInterface
      */
     protected $timeInForce;
 
+    /**
+     * @var string
+     */
+    protected $strictValidate;
+
     public function __construct()
     {
         $this->setClientOrderId(self::generateClientOrderId());
@@ -201,6 +206,25 @@ class NewOrder implements OrderInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getStrictValidate()
+    {
+        return $this->strictValidate;
+    }
+
+    /**
+     * @param  string $strictValidate
+     * @return $this
+     */
+    public function setStrictValidate($strictValidate)
+    {
+        $this->strictValidate = $strictValidate;
+
+        return $this;
+    }
+
     public static function generateClientOrderId()
     {
         return sprintf('%04x%04x%04x%04x%04x%04x%04x%04x', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
@@ -219,7 +243,8 @@ class NewOrder implements OrderInterface
             'stopPrice' => $this->getStopPrice(),
             'quantity' => $this->getQuantity(),
             'type' => $this->getType(),
-            'timeInForce' => $this->getTimeInForce()
+            'timeInForce' => $this->getTimeInForce(),
+            'strictValidate' => $this->getStrictValidate()
         ));
     }
 
