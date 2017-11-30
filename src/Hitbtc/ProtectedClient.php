@@ -86,27 +86,14 @@ class ProtectedClient
     /**
      * Cancel new or partiallyFilled order
      *
-     * @param  Order                   $order
-     * @param  null|string                    $cancelRequestId
+     * @param  Order                   $clientOrderId
      * @throws InvalidRequestException
      * @throws RejectException
      * @return Order
      */
-    public function cancelOrder(Order $order, $cancelRequestId = null)
+    public function cancelOrder($clientOrderId)
     {
-        if (!$cancelRequestId) {
-            $cancelRequestId = substr(NewOrder::generateClientOrderId(), 0, 30);
-        }
-
-        $response = $this->getHttpClient()->post('/api/2/trading/cancel_order', array(
-            'body' => array(
-                'clientOrderId' => $order->getClientOrderId(),
-                'cancelRequestClientOrderId' => $cancelRequestId,
-                'symbol' => $order->getSymbol(),
-                'side' => $order->getSide()
-            ),
-            'exceptions' => false,
-        ));
+        $response = $this->getHttpClient()->delete('/api/2/order/'.$clientOrderId, array('exceptions' => false));
         $document = json_decode($response->getBody(), true);
         if (isset($document['ExecutionReport'])) {
             return new Order($document['ExecutionReport']);

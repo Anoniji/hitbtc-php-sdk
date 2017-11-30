@@ -67,7 +67,7 @@ try {
 
 ```php
 try {
-    $order = $client->cancelOrder($order);
+    $order = $client->cancelOrder($clientOrderId);
     var_dump($order->getStatus()); // canceled
 } catch (\Hitbtc\Exception\RejectException $e) {
     echo $e; // if creating order will rejected
